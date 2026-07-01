@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useColorScheme } from 'react-native';
 import Svg, { Path, Circle } from 'react-native-svg';
-import { useColorScheme } from 'react-native';
 import { Colors } from '@/constants/theme';
 
 interface ProgressRingProps {

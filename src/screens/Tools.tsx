@@ -17,15 +17,15 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import { SymbolView } from 'expo-symbols';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useDatabase, settings } from '@/database/sqlite';
 import { Colors } from '@/constants/theme';
-import { getPrayerTimes, getNextPrayer, getCurrentWaqt, CALCULATION_METHODS } from '@/utils/prayer-times';
-import type { CalculationMethodKey, AsrMethod, PrayerTimesResult } from '@/utils/prayer-times';
+import { getPrayerTimes, getNextPrayer, CALCULATION_METHODS, getCurrentWaqt } from '@/utils/prayer-times';
+import type { CalculationMethodKey, AsrMethod } from '@/utils/prayer-times';
 import { getQiblaDirection, useMagnetometerHeading } from '@/utils/qibla';
 import type { Coordinates } from '@/utils/location';
+import Icon from '@/components/icon';
 import WaqtArc from '@/components/waqt-arc';
 
 export default function ToolsScreen() {
@@ -125,7 +125,7 @@ export default function ToolsScreen() {
   if (!location) {
     return (
       <View style={[styles.root, { backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center', padding: 24 }]}>
-        <SymbolView name="location.slash" tintColor={theme.textSecondary} size={48} />
+        <Icon name="location.slash" fallback="location-off" tint={theme.textSecondary} size={48} />
         <Text style={[styles.emptyTitle, { color: theme.text }]}>No Location Set</Text>
         <Text style={[styles.emptyBody, { color: theme.textSecondary }]}>
           Go to Today tab and set your location to use prayer times and Qibla compass.
@@ -150,8 +150,8 @@ export default function ToolsScreen() {
           </View>
           <WaqtArc
             progress={waqtInfo?.progress ?? 0}
-            size={96}
-            strokeWidth={6}
+            size={140}
+            strokeWidth={9}
             label={waqtInfo?.name ?? nextPrayer?.name ?? '--'}
             sublabel={waqtInfo ? `${waqtInfo.startLabel} – ${waqtInfo.endLabel}` : ''}
             elapsed={waqtInfo ? `${Math.round((1 - waqtInfo.progress) * 100)}% left` : countdown}
@@ -203,7 +203,7 @@ export default function ToolsScreen() {
               </View>
             </Animated.View>
             <Animated.View style={[styles.qiblaArrow, qiblaArrowStyle]}>
-              <SymbolView name="arrow.up" tintColor={theme.success} size={24} />
+              <Icon name="arrow.up" fallback="navigation" tint={theme.success} size={24} />
             </Animated.View>
           </View>
           <Text style={[styles.compassLabel, { color: theme.text }]}>
@@ -236,7 +236,7 @@ export default function ToolsScreen() {
                 {m.label}
               </Text>
               {calcMethod === m.value && (
-                <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={18} />
+                <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={18} />
               )}
             </Pressable>
           ))}

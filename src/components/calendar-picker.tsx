@@ -7,7 +7,6 @@ import {
   View,
   useColorScheme,
 } from 'react-native';
-import { SymbolView } from 'expo-symbols';
 import {
   format,
   startOfMonth,
@@ -25,6 +24,7 @@ import {
 import * as Haptics from 'expo-haptics';
 
 import { Colors } from '@/constants/theme';
+import Icon from '@/components/icon';
 
 const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
@@ -111,7 +111,7 @@ export default function CalendarPicker({
               pressed && { opacity: 0.6 },
             ]}
           >
-            <SymbolView name="chevron.left" tintColor={theme.primary} size={14} />
+            <Icon name="chevron.left" fallback="chevron-left" tint={theme.primary} size={14} />
           </Pressable>
 
           <View style={styles.monthGroup}>
@@ -134,7 +134,7 @@ export default function CalendarPicker({
               isSameMonth(viewMonth, today) && { opacity: 0.3 },
             ]}
           >
-            <SymbolView name="chevron.right" tintColor={theme.primary} size={14} />
+            <Icon name="chevron.right" fallback="chevron-right" tint={theme.primary} size={14} />
           </Pressable>
         </View>
 
@@ -202,7 +202,7 @@ export default function CalendarPicker({
         </View>
 
         <View style={[styles.preview, { backgroundColor: theme.selectedHighlight }]}>
-          <SymbolView name="calendar.badge.clock" tintColor={theme.primary} size={16} />
+          <Icon name="calendar.badge.clock" fallback="event" tint={theme.primary} size={16} />
           <Text style={[styles.previewText, { color: theme.text }]}>
             {format(picked, 'EEEE, MMMM d, yyyy')}
           </Text>
@@ -229,7 +229,7 @@ export default function CalendarPicker({
               pressed && { opacity: 0.8 },
             ]}
           >
-            <SymbolView name="arrow.right" tintColor="#fff" size={14} />
+            <Icon name="arrow.right" fallback="arrow-forward" tint="#fff" size={14} />
             <Text style={styles.confirmBtnLabel}>Go to Date</Text>
           </Pressable>
         </View>

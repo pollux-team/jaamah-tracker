@@ -14,12 +14,12 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { SymbolView } from 'expo-symbols';
 import { format, startOfDay } from 'date-fns';
 
 import { useDatabase, settings } from '@/database/sqlite';
 import { StreakEngine } from '@/logic/scorer';
 import { Colors } from '@/constants/theme';
+import Icon from '@/components/icon';
 
 const HEATMAP_CELL = 10;
 const HEATMAP_GAP = 2;
@@ -111,7 +111,7 @@ export default function StatsScreen() {
         <View style={{ gap: 4, flex: 1 }}>
           <Text style={[styles.bannerLabel, { color: theme.textSecondary }]}>Current Streak</Text>
           <View style={styles.bannerRow}>
-            <SymbolView name="flame.fill" tintColor={streak.current > 0 ? '#f97316' : theme.textSecondary} size={20} />
+            <Icon name="flame.fill" fallback="whatshot" tint={streak.current > 0 ? '#f97316' : theme.textSecondary} size={20} />
             <Text style={[styles.bannerValue, { color: theme.text }]}>{streak.current}</Text>
           </View>
           <Text style={[styles.bannerHint, { color: theme.textSecondary }]}>
@@ -120,7 +120,7 @@ export default function StatsScreen() {
         </View>
 
         <Animated.View style={[styles.streakBadge, streakBadgeAnim, { borderColor: theme.backgroundSelected, backgroundColor: theme.backgroundElement }]}>
-          <SymbolView name="star.fill" tintColor="#d97706" size={22} />
+          <Icon name="star.fill" fallback="star" tint="#d97706" size={22} />
           <Text style={[styles.streakBadgeValue, { color: theme.text }]}>{streak.best}</Text>
           <Text style={[styles.streakBadgeLabel, { color: theme.textSecondary }]}>Best</Text>
         </Animated.View>

@@ -29,6 +29,8 @@ export interface PrayerTimeEntry {
   name: string;
   time: Date;
   label: string;
+  endTime: Date;
+  endTimeLabel: string;
   type: 'fard' | 'sunnah' | 'time';
 }
 
@@ -83,13 +85,15 @@ export function getPrayerTimes(
 
   const nextName = times.nextPrayer();
 
+  const nextFajr = new Date(times.fajr.getTime() + 24 * 60 * 60 * 1000);
+
   const entries: PrayerTimeEntry[] = [
-    { name: 'Fajr', time: times.fajr, label: format(times.fajr, 'h:mm a'), type: 'fard' },
-    { name: 'Sunrise', time: times.sunrise, label: format(times.sunrise, 'h:mm a'), type: 'time' },
-    { name: 'Dhuhr', time: times.dhuhr, label: format(times.dhuhr, 'h:mm a'), type: 'fard' },
-    { name: 'Asr', time: times.asr, label: format(times.asr, 'h:mm a'), type: 'fard' },
-    { name: 'Maghrib', time: times.maghrib, label: format(times.maghrib, 'h:mm a'), type: 'fard' },
-    { name: 'Isha', time: times.isha, label: format(times.isha, 'h:mm a'), type: 'fard' },
+    { name: 'Fajr', time: times.fajr, label: format(times.fajr, 'h:mm a'), endTime: times.sunrise, endTimeLabel: format(times.sunrise, 'h:mm a'), type: 'fard' },
+    { name: 'Sunrise', time: times.sunrise, label: format(times.sunrise, 'h:mm a'), endTime: times.dhuhr, endTimeLabel: format(times.dhuhr, 'h:mm a'), type: 'time' },
+    { name: 'Dhuhr', time: times.dhuhr, label: format(times.dhuhr, 'h:mm a'), endTime: times.asr, endTimeLabel: format(times.asr, 'h:mm a'), type: 'fard' },
+    { name: 'Asr', time: times.asr, label: format(times.asr, 'h:mm a'), endTime: times.maghrib, endTimeLabel: format(times.maghrib, 'h:mm a'), type: 'fard' },
+    { name: 'Maghrib', time: times.maghrib, label: format(times.maghrib, 'h:mm a'), endTime: times.isha, endTimeLabel: format(times.isha, 'h:mm a'), type: 'fard' },
+    { name: 'Isha', time: times.isha, label: format(times.isha, 'h:mm a'), endTime: nextFajr, endTimeLabel: format(nextFajr, 'h:mm a'), type: 'fard' },
   ];
 
   return {

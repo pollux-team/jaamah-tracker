@@ -16,7 +16,6 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { SymbolView } from 'expo-symbols';
 import * as Haptics from 'expo-haptics';
 import { format, subDays, addDays, startOfDay, isToday, differenceInDays } from 'date-fns';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -31,7 +30,7 @@ import { getPrayerTimes, getNextPrayer, getCurrentWaqt } from '@/utils/prayer-ti
 import type { CalculationMethodKey, AsrMethod, PrayerTimesResult } from '@/utils/prayer-times';
 import Onboarding from '@/components/onboarding';
 import CalendarPicker from '@/components/calendar-picker';
-import ProgressRing from '@/components/progress-ring';
+import Icon from '@/components/icon';
 import WaqtArc from '@/components/waqt-arc';
 
 type DateState = {
@@ -340,7 +339,7 @@ export default function TodayScreen() {
           }}
           hitSlop={12}
           style={({ pressed }) => [pressed && { opacity: 0.5 }, { marginLeft: 8 }]}>
-          <SymbolView name="calendar" tintColor={theme.primary} size={18} />
+          <Icon name="calendar" fallback="calendar-today" tint={theme.primary} size={18} />
         </Pressable>
       </View>
 
@@ -354,11 +353,11 @@ export default function TodayScreen() {
             </View>
             <WaqtArc
               progress={waqtInfo?.progress ?? 0}
-              size={88}
-              strokeWidth={6}
+              size={160}
+              strokeWidth={10}
               label={waqtInfo?.name ?? nextPrayer.name}
               sublabel={waqtInfo ? `${waqtInfo.startLabel} – ${waqtInfo.endLabel}` : ''}
-              elapsed={waqtInfo ? `${Math.round((1 - waqtInfo.progress) * 100)}% left` : countdown}
+              elapsed={waqtInfo ? `${countdown}` : countdown}
             />
           </View>
         </Animated.View>
@@ -376,9 +375,10 @@ export default function TodayScreen() {
             styles.streakCard,
             { backgroundColor: theme.backgroundElement, borderColor: theme.backgroundSelected },
           ]}>
-          <SymbolView
+          <Icon
             name="flame.fill"
-            tintColor={getStreakAccent(streak.current > 0 ? streak.current - 1 : 0, theme)}
+            fallback="whatshot"
+            tint={getStreakAccent(streak.current > 0 ? streak.current - 1 : 0, theme)}
             size={18}
           />
           <View style={{ marginLeft: 8 }}>
@@ -393,7 +393,7 @@ export default function TodayScreen() {
           entering={FadeIn.duration(200)}
           exiting={FadeOut.duration(150)}
           style={[styles.excusedBanner, { backgroundColor: theme.backgroundElement, borderColor: theme.prohibited }]}>
-          <SymbolView name="moon.fill" tintColor={theme.prohibited} size={14} />
+          <Icon name="moon.fill" fallback="wb-twilight" tint={theme.prohibited} size={14} />
           <Text style={[styles.excusedBannerText, { color: theme.textSecondary }]}>
             Prohibited Days — fard + sunnah paused
           </Text>
@@ -403,7 +403,7 @@ export default function TodayScreen() {
       {gender === 'female' && (
         <View style={[styles.excusedControl, { borderColor: theme.backgroundSelected, backgroundColor: theme.backgroundElement }]}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-            <SymbolView name="moon.fill" tintColor={theme.prohibited} size={16} />
+            <Icon name="moon.fill" fallback="wb-twilight" tint={theme.prohibited} size={16} />
             <Text style={[styles.excusedControlLabel, { color: theme.text }]}>Prohibited Days</Text>
           </View>
           <Pressable
@@ -513,7 +513,7 @@ export default function TodayScreen() {
                   completed && { backgroundColor: theme.success, borderColor: theme.success },
                 ]}>
                 {completed && (
-                  <SymbolView name="checkmark" tintColor="#fff" size={12} />
+                  <Icon name="checkmark" fallback="check" tint="#fff" size={12} />
                 )}
               </View>
               <Text

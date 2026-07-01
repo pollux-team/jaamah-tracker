@@ -10,7 +10,6 @@ import {
   View,
   useColorScheme,
 } from 'react-native';
-import { SymbolView } from 'expo-symbols';
 import { File, Paths } from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
@@ -20,6 +19,7 @@ import { Colors } from '@/constants/theme';
 import { requestLocation, type Coordinates } from '@/utils/location';
 import { CALCULATION_METHODS, ASR_METHODS } from '@/utils/prayer-times';
 import type { CalculationMethodKey, AsrMethod } from '@/utils/prayer-times';
+import Icon from '@/components/icon';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
@@ -182,7 +182,7 @@ export default function SettingsScreen() {
           <Pressable
             onPress={handleExport}
             style={({ pressed }) => [styles.dataRow, { opacity: pressed ? 0.7 : 1 }]}>
-            <SymbolView name="square.and.arrow.up" tintColor={theme.primary} size={20} />
+            <Icon name="square.and.arrow.up" fallback="file-upload" tint={theme.primary} size={20} />
             <View style={{ flex: 1 }}>
               <Text style={[styles.settingTitle, { color: theme.text }]}>Export Data</Text>
               <Text style={[styles.settingDesc, { color: theme.textSecondary }]}>
@@ -199,7 +199,7 @@ export default function SettingsScreen() {
           <Pressable
             onPress={handleImport}
             style={({ pressed }) => [styles.dataRow, { opacity: pressed ? 0.7 : 1 }]}>
-            <SymbolView name="square.and.arrow.down" tintColor={theme.warning} size={20} />
+            <Icon name="square.and.arrow.down" fallback="file-download" tint={theme.warning} size={20} />
             <View style={{ flex: 1 }}>
               <Text style={[styles.settingTitle, { color: theme.text }]}>Import Data</Text>
               <Text style={[styles.settingDesc, { color: theme.textSecondary }]}>
@@ -230,7 +230,7 @@ export default function SettingsScreen() {
           <Pressable
             onPress={handleLocateMe}
             style={({ pressed }) => [styles.locateBtn, { backgroundColor: theme.backgroundSelected, opacity: pressed ? 0.8 : 1 }]}>
-            <SymbolView name="location" tintColor={theme.primary} size={16} />
+            <Icon name="location" fallback="place" tint={theme.primary} size={16} />
             <Text style={[styles.locateLabel, { color: theme.text }]}>
               {locationStatus || 'Update Location'}
             </Text>
@@ -257,7 +257,9 @@ export default function SettingsScreen() {
                 {m.label}
               </Text>
               {calcMethod === m.value && (
-                <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={18} />
+                <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={18} />
+
+
               )}
             </Pressable>
           ))}
@@ -278,7 +280,9 @@ export default function SettingsScreen() {
                 {a.label}
               </Text>
               {asrMethod === a.value && (
-                <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={18} />
+                <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={18} />
+
+
               )}
             </Pressable>
           ))}
@@ -286,7 +290,7 @@ export default function SettingsScreen() {
       </View>
 
       <View style={[styles.privacyCard, { backgroundColor: theme.backgroundElement }]}>
-        <SymbolView name="lock.shield" tintColor={theme.textSecondary} size={20} />
+        <Icon name="lock.shield" fallback="shield" tint={theme.textSecondary} size={20} />
         <Text style={[styles.privacyText, { color: theme.textSecondary }]}>
           Your data never leaves this device.{'\n'}100% offline. 100% yours.
         </Text>

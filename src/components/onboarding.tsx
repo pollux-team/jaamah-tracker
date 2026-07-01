@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { SymbolView } from 'expo-symbols';
 import * as Haptics from 'expo-haptics';
 
 import { useDatabase, settings } from '@/database/sqlite';
@@ -18,6 +17,7 @@ import { Colors } from '@/constants/theme';
 import { requestLocation } from '@/utils/location';
 import { CALCULATION_METHODS, ASR_METHODS } from '@/utils/prayer-times';
 import type { CalculationMethodKey, AsrMethod } from '@/utils/prayer-times';
+import Icon from '@/components/icon';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -114,7 +114,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             exiting={SlideOutLeft.duration(200)}
             style={styles.step}>
             <View style={styles.iconWrap}>
-              <SymbolView name="moon.stars.fill" tintColor={theme.primary} size={56} />
+              <Icon name="moon.stars.fill" fallback="nightlight-round" tint={theme.primary} size={56} />
             </View>
             <Text style={[styles.heading, { color: theme.text }]}>Jamā&apos;ah Journal</Text>
             <Text style={[styles.subheading, { color: theme.textSecondary }]}>
@@ -122,7 +122,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             </Text>
 
             <View style={[styles.privacyCard, { backgroundColor: theme.backgroundElement, borderColor: theme.backgroundSelected }]}>
-              <SymbolView name="lock.shield" tintColor={theme.success} size={22} />
+              <Icon name="lock.shield" fallback="shield" tint={theme.success} size={22} />
               <Text style={[styles.privacyText, { color: theme.textSecondary }]}>
                 Your data never leaves this device.{'\n'}100% offline. 100% yours.
               </Text>
@@ -141,7 +141,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             exiting={SlideOutLeft.duration(200)}
             style={styles.step}>
             <View style={styles.iconWrap}>
-              <SymbolView name="person.fill" tintColor={theme.primary} size={40} />
+              <Icon name="person.fill" fallback="person" tint={theme.primary} size={40} />
             </View>
             <Text style={[styles.heading, { color: theme.text }]}>Who are you?</Text>
             <Text style={[styles.subheading, { color: theme.textSecondary }]}>
@@ -159,14 +159,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     opacity: pressed ? 0.9 : 1,
                   },
                 ]}>
-                <SymbolView name="figure.stand" tintColor={gender === 'male' ? theme.primary : theme.textSecondary} size={36} />
+                <Icon name="figure.stand" fallback="accessibility" tint={gender === 'male' ? theme.primary : theme.textSecondary} size={36} />
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.cardTitle, { color: gender === 'male' ? theme.primary : theme.text }]}>Male</Text>
                   <Text style={[styles.cardDesc, { color: theme.textSecondary }]}>
                     Standard tracking for all five daily prayers
                   </Text>
                 </View>
-                {gender === 'male' && <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={22} />}
+                {gender === 'male' && <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={22} />}
               </Pressable>
 
               <Pressable
@@ -179,14 +179,14 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                     opacity: pressed ? 0.9 : 1,
                   },
                 ]}>
-                <SymbolView name="figure.wave" tintColor={gender === 'female' ? theme.female : theme.textSecondary} size={32} />
+                <Icon name="figure.wave" fallback="person" tint={gender === 'female' ? theme.female : theme.textSecondary} size={32} />
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.cardTitle, { color: gender === 'female' ? theme.female : theme.text }]}>Female</Text>
                   <Text style={[styles.cardDesc, { color: theme.textSecondary }]}>
                     Includes prohibited days mode to safely pause streaks
                   </Text>
                 </View>
-                {gender === 'female' && <SymbolView name="checkmark.circle.fill" tintColor={theme.female} size={22} />}
+                {gender === 'female' && <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.female} size={22} />}
               </Pressable>
             </View>
           </Animated.View>
@@ -199,7 +199,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             exiting={SlideOutLeft.duration(200)}
             style={styles.step}>
             <View style={styles.iconWrap}>
-              <SymbolView name="location.fill" tintColor={theme.primary} size={40} />
+              <Icon name="location.fill" fallback="place" tint={theme.primary} size={40} />
             </View>
             <Text style={[styles.heading, { color: theme.text }]}>Where are you?</Text>
             <Text style={[styles.subheading, { color: theme.textSecondary }]}>
@@ -216,9 +216,10 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   opacity: locationStatus === 'loading' ? 0.7 : pressed ? 0.9 : 1,
                 },
               ]}>
-              <SymbolView
+              <Icon
                 name={locationStatus === 'saved' ? 'checkmark.circle.fill' : 'location.fill'}
-                tintColor="#fff"
+                fallback={locationStatus === 'saved' ? 'check-circle' : 'my-location'}
+                tint="#fff"
                 size={20}
               />
               <Text style={styles.primaryButtonText}>
@@ -229,7 +230,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             </Pressable>
 
             <View style={[styles.infoBox, { backgroundColor: theme.backgroundElement }]}>
-              <SymbolView name="info.circle" tintColor={theme.textSecondary} size={16} />
+              <Icon name="info.circle" fallback="info" tint={theme.textSecondary} size={16} />
               <Text style={[styles.infoText, { color: theme.textSecondary }]}>
                 Your GPS coordinates are stored locally and never sent anywhere.
               </Text>
@@ -244,7 +245,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             exiting={SlideOutLeft.duration(200)}
             style={styles.step}>
             <View style={styles.iconWrap}>
-              <SymbolView name="gearshape.fill" tintColor={theme.primary} size={40} />
+              <Icon name="gearshape.fill" fallback="settings" tint={theme.primary} size={40} />
             </View>
             <Text style={[styles.heading, { color: theme.text }]}>Calculation Method</Text>
             <Text style={[styles.subheading, { color: theme.textSecondary }]}>
@@ -267,7 +268,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <Text style={[styles.methodLabel, { color: calcMethod === m.value ? theme.primary : theme.text }]}>
                     {m.label}
                   </Text>
-                  {calcMethod === m.value && <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={18} />}
+                  {calcMethod === m.value && <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={18} />}
                 </Pressable>
               ))}
             </View>
@@ -288,7 +289,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
                   <Text style={[styles.methodLabel, { color: asrMethod === a.value ? theme.primary : theme.text }]}>
                     {a.label}
                   </Text>
-                  {asrMethod === a.value && <SymbolView name="checkmark.circle.fill" tintColor={theme.primary} size={18} />}
+                  {asrMethod === a.value && <Icon name="checkmark.circle.fill" fallback="check-circle" tint={theme.primary} size={18} />}
                 </Pressable>
               ))}
             </View>
@@ -302,7 +303,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             exiting={SlideOutLeft.duration(200)}
             style={styles.step}>
             <View style={styles.iconWrap}>
-              <SymbolView name="moon.stars.fill" tintColor={theme.prohibited} size={40} />
+              <Icon name="moon.stars.fill" fallback="nightlight-round" tint={theme.prohibited} size={40} />
             </View>
             <Text style={[styles.heading, { color: theme.text }]}>Prohibited Days</Text>
             <Text style={[styles.subheading, { color: theme.textSecondary }]}>
@@ -311,7 +312,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             <View style={[styles.infoCard, { backgroundColor: theme.backgroundElement, borderColor: theme.prohibited }]}>
               <View style={styles.infoRow}>
-                <SymbolView name="moon.fill" tintColor={theme.prohibited} size={18} />
+                <Icon name="moon.fill" fallback="brightness-3" tint={theme.prohibited} size={18} />
                 <Text style={[styles.infoTitle, { color: theme.text }]}>What it does</Text>
               </View>
               <Text style={[styles.infoBody, { color: theme.textSecondary }]}>
@@ -321,7 +322,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             <View style={[styles.infoCard, { backgroundColor: theme.backgroundElement, borderColor: theme.prohibited }]}>
               <View style={styles.infoRow}>
-                <SymbolView name="chart.bar.fill" tintColor={theme.prohibited} size={18} />
+                <Icon name="chart.bar.fill" fallback="bar-chart" tint={theme.prohibited} size={18} />
                 <Text style={[styles.infoTitle, { color: theme.text }]}>Stats stay fair</Text>
               </View>
               <Text style={[styles.infoBody, { color: theme.textSecondary }]}>
@@ -331,7 +332,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             <View style={[styles.infoCard, { backgroundColor: theme.backgroundElement, borderColor: theme.prohibited }]}>
               <View style={styles.infoRow}>
-                <SymbolView name="hand.raised.fill" tintColor={theme.prohibited} size={18} />
+                <Icon name="hand.raised.fill" fallback="pan-tool" tint={theme.prohibited} size={18} />
                 <Text style={[styles.infoTitle, { color: theme.text }]}>You stay in control</Text>
               </View>
               <Text style={[styles.infoBody, { color: theme.textSecondary }]}>
@@ -360,7 +361,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             onPress={goBack}
             hitSlop={12}
             style={({ pressed }) => [styles.backButton, { opacity: pressed ? 0.6 : 1 }]}>
-            <SymbolView name="chevron.left" tintColor={theme.textSecondary} size={18} />
+            <Icon name="chevron.left" fallback="chevron-left" tint={theme.textSecondary} size={18} />
             <Text style={[styles.backButtonText, { color: theme.textSecondary }]}>Back</Text>
           </Pressable>
         ) : (

@@ -38,6 +38,8 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Label>Stats</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           sf={{ default: 'chart.bar', selected: 'chart.bar.fill' }}
+          src={require('@/assets/images/tabIcons/stats.png')}
+          renderingMode="template"
         />
       </NativeTabs.Trigger>
 
@@ -45,6 +47,8 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Label>Tools</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           sf={{ default: 'mappin.and.ellipse', selected: 'mappin.and.ellipse' }}
+          src={require('@/assets/images/tabIcons/tools.png')}
+          renderingMode="template"
         />
       </NativeTabs.Trigger>
 
@@ -52,6 +56,8 @@ export default function AppTabs() {
         <NativeTabs.Trigger.Label>Settings</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon
           sf={{ default: 'gearshape', selected: 'gearshape.fill' }}
+          src={require('@/assets/images/tabIcons/settings.png')}
+          renderingMode="template"
         />
       </NativeTabs.Trigger>
     </NativeTabs>
