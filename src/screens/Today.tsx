@@ -8,6 +8,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { Image } from 'expo-image';
 import Animated, {
   Easing,
   FadeIn,
@@ -275,7 +276,8 @@ export default function TodayScreen() {
   const prayerList = useMemo(() => {
     return PRAYER_NAMES.map(name => {
       const row = prayersDay.find(p => p.name === name);
-      const timeLabel = prayerTimes?.entries.find(e => e.name === name)?.label ?? '';
+      const entry = prayerTimes?.entries.find(e => e.name === name);
+      const timeLabel = entry ? `${entry.label} – ${entry.endTimeLabel}` : '';
       return {
         name,
         status: (row?.status as PrayerStatus | null) ?? null,
@@ -346,10 +348,17 @@ export default function TodayScreen() {
       {nextPrayer && isToday(cursor) && (
         <Animated.View entering={FadeIn.duration(300)} style={[styles.countdownCard, { backgroundColor: theme.backgroundElement }]}>
           <View style={styles.countdownRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={[styles.countdownLabel, { color: theme.textSecondary }]}>Next Prayer</Text>
-              <Text style={[styles.countdownPrayer, { color: theme.text }]}>{nextPrayer.name}</Text>
-              <Text style={[styles.countdownTime, { color: theme.textSecondary }]}>at {nextPrayer.label}</Text>
+            <View style={{ flex: 1, overflow: 'hidden' }}>
+              <Image
+                source={require('../../assets/color_vector11.svg')}
+                style={styles.countdownBgImage}
+                contentFit="cover"
+              />
+              <View style={styles.countdownContent}>
+                <Text style={[styles.countdownLabel, { color: theme.textSecondary }]}>Next Prayer</Text>
+                <Text style={[styles.countdownPrayer, { color: theme.text }]}>{nextPrayer.name}</Text>
+                <Text style={[styles.countdownTime, { color: theme.textSecondary }]}>at {nextPrayer.label}</Text>
+              </View>
             </View>
             <WaqtArc
               progress={waqtInfo?.progress ?? 0}
@@ -567,8 +576,20 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     borderCurve: 'continuous',
     padding: 16,
+    height: 160
   },
   countdownRow: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+  countdownBgImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 0.15,
+  },
+  countdownContent: {
+    flex: 1,
+  },
   countdownLabel: { fontSize: 12, textTransform: 'uppercase', letterSpacing: 0.4 },
   countdownPrayer: { fontSize: 22, fontWeight: '700', marginTop: 2 },
   countdownTime: { fontSize: 13, marginTop: 1 },
@@ -616,7 +637,7 @@ const styles = StyleSheet.create({
   prayerName: { fontSize: 16, fontWeight: '600' },
   prayerSubRow: { flexDirection: 'row', gap: 10, marginTop: 2, alignItems: 'center' },
   prayerPoints: { fontSize: 13 },
-  prayerTime: { fontSize: 12 },
+  prayerTime: { fontSize: 11 },
   statusDot: { width: 14, height: 14, borderRadius: 7, borderCurve: 'continuous' },
   statusPickerWrap: { paddingHorizontal: 14, paddingBottom: 12, paddingTop: 4 },
   statusPicker: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
